@@ -98,6 +98,28 @@ target, and diff the two.
 
 ---
 
+## Use it as a Claude Code skill
+
+The repo ships a skill that drives the whole workflow — setting the conditions, building Arm A,
+launching the specialists as parallel isolated agents, running your comparison reviewer, and
+producing the overlap analysis.
+
+```bash
+cp -r .claude/skills/code-review-arena ~/.claude/skills/
+```
+
+Then ask for it by name, or just describe the task:
+
+```
+/code-review-arena
+compare Claude Code's review against a context-fed ensemble on src/
+```
+
+It works in the repo you cloned or on any other repo — point it at a target and it runs there. The
+skill carries the two rules that keep the output honest: it will not declare a winner (there is no
+ground truth, so precision and recall are unavailable), and it ends by making you *fix* a finding,
+because verification passes on findings that are right about the symptom and wrong about the cause.
+
 ## Adding your own specialist
 
 Drop a markdown file in `agents/`. Frontmatter declares the retrieval queries; the body is the
