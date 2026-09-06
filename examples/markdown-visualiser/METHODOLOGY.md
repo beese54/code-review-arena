@@ -37,7 +37,8 @@ function 114 | const 44 | interface 27 | type 9 | class 4 | method 1
 
 ### A2. Embeddings + vector index — `context-engine/retrieve.py`
 `all-MiniLM-L6-v2` (384-dim, local ONNX) via Chroma's default embedding function, indexed in an
-ephemeral Chroma collection, cosine similarity.
+ephemeral Chroma collection. Chroma's default space is squared L2 and the embeddings
+are unit vectors, so distance = 2 - 2cos; scores below are reported as true cosine.
 
 > **Deviation from the course:** the course used OpenAI `text-embedding-3-large`. No OpenAI API key
 > is available on this machine, so a local sentence-transformer stands in. Retrieval is still

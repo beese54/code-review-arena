@@ -96,6 +96,19 @@ def _embedding_fn(kind: str):
     return embedding_functions.DefaultEmbeddingFunction()
 
 
+
+def _cosine(distance: float) -> float:
+    """Convert Chroma's default distance to a real cosine similarity.
+
+    Chroma's default space is squared L2, and both embedders here return unit
+    vectors, so d = |a-b|^2 = 2 - 2cos, giving cos = 1 - d/2. Reporting the raw
+    `1 - d` instead — as an earlier version of this file did — is monotonic, so
+    it ranks identically, but it is not a cosine: it prints -0.05 for a chunk
+    whose true cosine is 0.47, which reads like "unrelated" when it is not.
+    """
+    return max(-1.0, min(1.0, 1.0 - distance / 2.0))
+
+
 def retrieve(chunks: list[dict], agents: list[Agent], out_dir: Path,
              top_k: int, per_query: int, embedder: str) -> dict:
     import chromadb
@@ -138,9 +151,9 @@ def retrieve(chunks: list[dict], agents: list[Agent], out_dir: Path,
         for q in ag.queries:
             res = col.query(query_texts=[q], n_results=min(per_query, len(docs)))
             for cid, dist in zip(res["ids"][0], res["distances"][0]):
-                sim = 1 - dist
-                if sim > best.get(cid, -9):
-                    best[cid] = sim
+                cos = _cosine(dist)
+                if cos > best.get(cid, -9):
+                    best[cid] = cos
         top = sorted(best.items(), key=lambda kv: -kv[1])[:top_k]
         sel_chars = sum(len(docs[int(cid)]) for cid, _ in top)
         reduction = (1 - sel_chars / full_chars) * 100 if full_chars else 0.0
@@ -152,11 +165,11 @@ def retrieve(chunks: list[dict], agents: list[Agent], out_dir: Path,
             "",
             "Line numbers in the headings below are real. Cite them exactly; do not estimate.", "",
         ]
-        for cid, sim in top:
+        for cid, cos in top:
             c = chunks[int(cid)]
             lines += [
                 f"## {c['type']}: `{c['name']}` — "
-                f"`{c['file']}:{c['start_line']}-{c['end_line']}` (sim {sim:+.3f})",
+                f"`{c['file']}:{c['start_line']}-{c['end_line']}` (cos {cos:.3f})",
                 "```", c["content"], "```", "",
             ]
         (out_dir / f"{ag.name}.md").write_text("\n".join(lines), encoding="utf-8")
@@ -166,8 +179,8 @@ def retrieve(chunks: list[dict], agents: list[Agent], out_dir: Path,
             "top": [
                 {"file": chunks[int(cid)]["file"], "line": chunks[int(cid)]["start_line"],
                  "type": chunks[int(cid)]["type"], "name": chunks[int(cid)]["name"],
-                 "sim": round(sim, 3)}
-                for cid, sim in top[:8]
+                 "cos": round(cos, 3)}
+                for cid, cos in top[:8]
             ],
         }
         print(f"  {ag.name:<20} {len(top):3d} chunks  {sel_chars:7,d} chars  "
