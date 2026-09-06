@@ -35,12 +35,19 @@ Neither is better. They answer different questions. Full write-up in
 
 ## How Arm A is built
 
+Two views of the same pipeline. Start with the shape of it:
+
+![How the work gets divided: a codebase is split into whole pieces, then handed to three specialists — security, conventions, and requirements — each of which sees about 15 percent of the code, roughly 40 percent between them. One highlighted band notes that each specialist gets a small slice rather than the whole codebase. A second notes that the spec skips the search and goes to every specialist whole and unfiltered. The findings are then merged, deduplicated and ranked. A closing band titled "The catch" reads: whatever nobody was handed, nobody can find.](docs/how-the-work-divides.svg)
+
+Divide the work by *what you are looking for* rather than by file, ration what each specialist is
+given, and let the project's own spec bypass the search entirely. That is the whole idea, and it
+transfers to any repo in any language.
+
+Now the same pipeline with the machinery and the real numbers from the reference run:
+
 ![Architecture of Arm A: 31 source files are split by the TypeScript compiler into 199 chunks, embedded into 384 numbers each and indexed in Chroma. Three specialists — security, pattern compliance and requirements gap — each issue ten plain-English queries. A shared attention budget of top-k equals 30 cuts each result set by rank, giving every agent 15 percent of the index and 39.7 percent combined. Task context and standards bypass retrieval and are passed whole. The three agents run in isolation, producing 6, 10 and 5 findings, combined into 20 after deduplication and triaged into 6 Action Required and 14 Review Recommended. The costs: 7 of 31 files were never retrieved by any agent, 24 of 53 acceptance criteria could not be assessed, and an absence such as "nothing imports this" can never be retrieved at all.](docs/arm-a-architecture.svg)
 
-There is also a plain-language version of the same pipeline, without the counts, for explaining the
-approach to people who do not need the mechanism: [`docs/how-the-work-divides.svg`](docs/how-the-work-divides.svg).
-
-Three things this diagram is trying to make obvious, because all three are easy to get wrong:
+Three things the detailed view is trying to make obvious, because all three are easy to get wrong:
 
 - **`top-k` is a budget, not a filter.** It takes exactly 30 chunks by rank. There is no relevance
   threshold anywhere in the pipeline, so the 30th chunk is included because it ranked 30th — in the
@@ -51,6 +58,9 @@ Three things this diagram is trying to make obvious, because all three are easy 
 - **The spec does not go through retrieval.** Task context and standards are passed whole to every
   agent. That side channel is the only reason a requirements-gap finding is possible, and it is the
   clearest structural difference from a reviewer working from the diff alone.
+
+Both are in [`docs/`](docs/) as SVG and 2x PNG. Arm B needs no diagram: it opens every file and runs
+the code, which is rather the point.
 
 ## What this repo gives you
 
@@ -126,6 +136,9 @@ producing the overlap analysis.
 ```bash
 cp -r .claude/skills/code-review-arena ~/.claude/skills/
 ```
+
+The skill lives in [`.claude/skills/code-review-arena/`](.claude/skills/code-review-arena/) — GitHub
+hides dotfolders from the file list, so that link is the only way to find it by browsing.
 
 Then ask for it by name, or just describe the task:
 
