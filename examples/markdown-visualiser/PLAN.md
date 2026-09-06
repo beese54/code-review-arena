@@ -5,7 +5,7 @@
 **Working tree:** clean at `cc34345` (master). No PR diff exists, so both arms review the same path target.
 
 ## Arm A — qodo methodology
-Source of the methodology: `C:\Users\allti\OneDrive\Documents\ai_code_review_by_qodo`
+Source of the methodology: a local copy of the course materials
 (DeepLearning.AI × Qodo, "AI Code Review", lessons 2–7 + glossary)
 
 Pipeline, per the course:

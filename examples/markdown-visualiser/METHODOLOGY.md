@@ -21,7 +21,7 @@ session did not pre-read source files for either arm, so neither inherited a war
 
 ## Arm A — the qodo methodology
 
-Reconstructed from `C:\Users\allti\OneDrive\Documents\ai_code_review_by_qodo`
+Reconstructed from a local copy of the course materials
 (DeepLearning.AI × Qodo, *AI Code Review*, lessons 2–7 and the course glossary).
 
 ### A1. Context engine — `context-engine/chunk.mjs`

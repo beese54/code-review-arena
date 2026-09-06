@@ -114,7 +114,7 @@ No `ReportFindings` tool is available in this session (I searched the deferred t
 
 ## Scope
 
-`git diff @{upstream}...HEAD` and `git diff HEAD` are both empty — the branch is fully pushed and the tree is clean (only the untracked `code-review-comparison/` scratch dir). I therefore reviewed the named target: all of `C:\Users\allti\OneDrive\Documents\markdown_visualiser\src` and `C:\Users\allti\OneDrive\Documents\markdown_visualiser\server` (~4,265 lines of TS/TSX). Findings 1, 4 and 5 were reproduced by running the real pipeline against the project's own `node_modules`.
+`git diff @{upstream}...HEAD` and `git diff HEAD` are both empty — the branch is fully pushed and the tree is clean (only the untracked `code-review-comparison/` scratch dir). I therefore reviewed the named target: all of the repository's `src/` and `server/` (~4,265 lines of TS/TSX). Findings 1, 4 and 5 were reproduced by running the real pipeline against the project's own `node_modules`.
 
 ## Findings
 
