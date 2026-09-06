@@ -84,6 +84,47 @@ harness that quietly burns tokens is a bad neighbour, and the whole point is to 
 
 ---
 
+### Why a compiler, when nothing is being compiled
+
+A TypeScript compiler normally turns TypeScript into JavaScript. Here it is used for something else:
+reading.
+
+Before it can translate anything, a compiler has to work out the structure of your code — where each
+function starts and ends, what it is called, which lines it occupies. That is the part this harness
+uses, and then it stops. Nothing is translated, no JavaScript is produced, and the agents read the
+original TypeScript.
+
+Why bother? Because the code has to be cut into pieces before it can be searched, and the pieces need
+to be whole functions. Cut by counting lines instead and you hand a reviewer the back half of one
+function glued to the front of another. The compiler is the only thing that knows where the real
+seams are.
+
+The difference is measurable. Running both chunkers over the same 31 files:
+
+```
+compiler AST     198 chunks   median 224 chars   top-k 30 = 15% of the index
+regex fallback   131 chunks   median 549 chars   top-k 30 = 23% of the index
+```
+
+The fallback misses 71 definitions, and not at random: it finds `function`, `class`, `interface` and
+`type`, because those begin with a keyword a pattern can match. It finds **none** of the 43 top-level
+`const` declarations, because `const sanitizeSchema = {...}` does not look like a definition to a
+regular expression — it looks like an assignment. In the reference run that includes `sanitizeSchema`
+itself, which is where the real security bug was, and `printSchema`, the dead control. Neither would
+have existed as a retrievable unit.
+
+Chunk count also sets the denominator for the retrieval budget: coarser chunks mean fewer of them, so
+the same `top-k` hands over a larger share of the codebase, in bigger pieces that mix several ideas
+together. That is dilution arriving through the back door.
+
+Finally, the parser is where the line numbers come from. Every bundle heading carries a real
+`file:line-line`, agents are told to copy them rather than estimate, and `check_citations.py` can
+only mean something because the source of truth was true to begin with.
+
+For Python the same job is done by Python's own `ast` module. For everything else there is no
+equivalent parser bundled here, so the regex fallback is what runs — it works, and it is visibly the
+weaker path.
+
 ## Quickstart
 
 ```bash
