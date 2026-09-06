@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1460" width="1200" height="1460" font-family="ui-sans-serif, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8a8a82"/>
+    </marker>
+    <style>
+      .t { fill:#15150e; }
+      .m { fill:#63635a; }
+      .w { fill:#ffffff; }
+      .card { fill:#ffffff; stroke:#dbdbd1; stroke-width:1.6; }
+      .ln { stroke:#a5a59c; stroke-width:2.4; fill:none; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="1460" fill="#faf9f5"/>
+
+  <text x="60" y="96" class="t" font-size="46" font-weight="600">How the work gets divided</text>
+  <text x="60" y="140" class="m" font-size="23">One AI reviewer reading everything gives you vague answers. So don&#8217;t ask it to.</text>
+
+  <!-- codebase -->
+  <rect x="330" y="188" width="540" height="86" rx="10" class="card"/>
+  <text x="600" y="228" class="t" font-size="27" font-weight="600" text-anchor="middle">A codebase</text>
+  <text x="600" y="256" class="m" font-size="19" text-anchor="middle">more than anyone reads carefully, every time</text>
+  <path d="M600,274 L600,318" class="ln" marker-end="url(#b)"/>
+
+  <!-- 1 split -->
+  <rect x="150" y="318" width="900" height="104" rx="10" class="card"/>
+  <text x="180" y="358" class="t" font-size="26" font-weight="600">1 &#8212; Split it into whole pieces</text>
+  <text x="180" y="392" class="m" font-size="20">Every function and type kept intact, so a reviewer never has to judge half of something.</text>
+  <path d="M600,422 L600,466" class="ln" marker-end="url(#b)"/>
+
+  <!-- 2 specialists -->
+  <text x="60" y="500" class="t" font-size="26" font-weight="600">2 &#8212; Give the work to specialists, not one generalist</text>
+
+  <g>
+    <rect x="60" y="524" width="340" height="176" rx="10" class="card"/>
+    <rect x="60" y="524" width="340" height="46" rx="10" fill="#b04a3f"/>
+    <rect x="60" y="548" width="340" height="22" fill="#b04a3f"/>
+    <text x="86" y="556" class="w" font-size="21" font-weight="700" letter-spacing="0.6">SECURITY</text>
+    <text x="86" y="604" class="m" font-size="19">hunts untrusted input,</text>
+    <text x="86" y="630" class="m" font-size="19">file paths, injection</text>
+    <text x="86" y="672" class="t" font-size="19" font-weight="600">sees ~15% of the code</text>
+  </g>
+  <g>
+    <rect x="430" y="524" width="340" height="176" rx="10" class="card"/>
+    <rect x="430" y="524" width="340" height="46" rx="10" fill="#3f6fa8"/>
+    <rect x="430" y="548" width="340" height="22" fill="#3f6fa8"/>
+    <text x="456" y="556" class="w" font-size="21" font-weight="700" letter-spacing="0.6">CONVENTIONS</text>
+    <text x="456" y="604" class="m" font-size="19">hunts drift from the</text>
+    <text x="456" y="630" class="m" font-size="19">patterns the code itself set</text>
+    <text x="456" y="672" class="t" font-size="19" font-weight="600">sees ~15% of the code</text>
+  </g>
+  <g>
+    <rect x="800" y="524" width="340" height="176" rx="10" class="card"/>
+    <rect x="800" y="524" width="340" height="46" rx="10" fill="#3f7a5c"/>
+    <rect x="800" y="548" width="340" height="22" fill="#3f7a5c"/>
+    <text x="826" y="556" class="w" font-size="21" font-weight="700" letter-spacing="0.6">REQUIREMENTS</text>
+    <text x="826" y="604" class="m" font-size="19">hunts what was promised</text>
+    <text x="826" y="630" class="m" font-size="19">and never actually built</text>
+    <text x="826" y="672" class="t" font-size="19" font-weight="600">sees ~15% of the code</text>
+  </g>
+
+  <!-- rationed attention -->
+  <rect x="60" y="726" width="1080" height="120" rx="10" fill="#fdf5e2" stroke="#c9a44a" stroke-width="2.2"/>
+  <text x="88" y="768" class="t" font-size="24" font-weight="700">Each one gets a small slice, not the whole codebase</text>
+  <text x="88" y="800" class="t" font-size="20">Every specialist asks its own questions and gets back only what those questions pull.</text>
+  <text x="88" y="828" class="m" font-size="20">Between the three of them, about 40% of the code. Hand a reviewer everything and it goes vague.</text>
+
+  <!-- spec side channel -->
+  <rect x="60" y="874" width="1080" height="120" rx="10" fill="#edf2ed" stroke="#b9c6b9" stroke-width="2.2"/>
+  <text x="88" y="916" class="t" font-size="24" font-weight="700">The spec skips the search entirely</text>
+  <text x="88" y="948" class="t" font-size="20">What the project promised to build goes to every specialist, whole and unfiltered.</text>
+  <text x="88" y="976" class="m" font-size="20">It is the only reason one of them can say: this was promised, and it was never built.</text>
+
+  <path d="M600,994 L600,1038" class="ln" marker-end="url(#b)"/>
+
+  <!-- 3 merge -->
+  <rect x="150" y="1038" width="900" height="104" rx="10" class="card"/>
+  <text x="180" y="1078" class="t" font-size="26" font-weight="600">3 &#8212; Merge what they found</text>
+  <text x="180" y="1112" class="m" font-size="20">Findings pooled, duplicates dropped, each survivor ranked: fix now, or read later.</text>
+
+  <!-- the catch -->
+  <rect x="60" y="1194" width="1080" height="206" rx="10" fill="#f7eeec" stroke="#cfaaa2" stroke-width="2.2"/>
+  <text x="88" y="1240" class="t" font-size="26" font-weight="700">The catch</text>
+  <text x="88" y="1282" class="t" font-size="22">Whatever nobody was handed, nobody can find.</text>
+  <text x="88" y="1322" class="m" font-size="20">In my run an entire layer of the app reached no specialist at all. And none of them could see that a</text>
+  <text x="88" y="1350" class="m" font-size="20">security feature had been written, documented, and never switched on &#8212; because &#8220;nothing uses this&#8221;</text>
+  <text x="88" y="1378" class="m" font-size="20">isn&#8217;t written anywhere in the code. A search can hand you code. It can&#8217;t hand you an absence.</text>
+</svg>

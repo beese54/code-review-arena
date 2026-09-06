@@ -37,6 +37,9 @@ Neither is better. They answer different questions. Full write-up in
 
 ![Architecture of Arm A: 31 source files are split by the TypeScript compiler into 199 chunks, embedded into 384 numbers each and indexed in Chroma. Three specialists — security, pattern compliance and requirements gap — each issue ten plain-English queries. A shared attention budget of top-k equals 30 cuts each result set by rank, giving every agent 15 percent of the index and 39.7 percent combined. Task context and standards bypass retrieval and are passed whole. The three agents run in isolation, producing 6, 10 and 5 findings, combined into 20 after deduplication and triaged into 6 Action Required and 14 Review Recommended. The costs: 7 of 31 files were never retrieved by any agent, 24 of 53 acceptance criteria could not be assessed, and an absence such as "nothing imports this" can never be retrieved at all.](docs/arm-a-architecture.svg)
 
+There is also a plain-language version of the same pipeline, without the counts, for explaining the
+approach to people who do not need the mechanism: [`docs/how-the-work-divides.svg`](docs/how-the-work-divides.svg).
+
 Three things this diagram is trying to make obvious, because all three are easy to get wrong:
 
 - **`top-k` is a budget, not a filter.** It takes exactly 30 chunks by rank. There is no relevance
