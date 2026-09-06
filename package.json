@@ -1,0 +1,9 @@
+{
+  "name": "code-review-arena",
+  "private": true,
+  "type": "module",
+  "description": "TypeScript AST chunking for code-review-arena",
+  "dependencies": {
+    "typescript": "^5.9.3"
+  }
+}
