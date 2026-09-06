@@ -33,6 +33,22 @@ Neither is better. They answer different questions. Full write-up in
 
 ---
 
+## How Arm A is built
+
+![Architecture of Arm A: 31 source files are split by the TypeScript compiler into 199 chunks, embedded into 384 numbers each and indexed in Chroma. Three specialists — security, pattern compliance and requirements gap — each issue ten plain-English queries. A shared attention budget of top-k equals 30 cuts each result set by rank, giving every agent 15 percent of the index and 39.7 percent combined. Task context and standards bypass retrieval and are passed whole. The three agents run in isolation, producing 6, 10 and 5 findings, combined into 20 after deduplication and triaged into 6 Action Required and 14 Review Recommended. The costs: 7 of 31 files were never retrieved by any agent, 24 of 53 acceptance criteria could not be assessed, and an absence such as "nothing imports this" can never be retrieved at all.](docs/arm-a-architecture.svg)
+
+Three things this diagram is trying to make obvious, because all three are easy to get wrong:
+
+- **`top-k` is a budget, not a filter.** It takes exactly 30 chunks by rank. There is no relevance
+  threshold anywhere in the pipeline, so the 30th chunk is included because it ranked 30th — in the
+  reference run that chunk scored cos 0.284, which is barely related to the query at all.
+- **15% is per agent, not per review.** The three query sets pull different neighbourhoods, so the
+  ensemble collectively saw 39.7% of the chunks and reached 24 of 31 files. Specialisation buys
+  coverage that one narrow view would not have.
+- **The spec does not go through retrieval.** Task context and standards are passed whole to every
+  agent. That side channel is the only reason a requirements-gap finding is possible, and it is the
+  clearest structural difference from a reviewer working from the diff alone.
+
 ## What this repo gives you
 
 A harness for **Arm A** — the context-aware ensemble, which is the fiddly one to build:
